@@ -5,6 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TodoItemModule } from './todo-item/todo-item.module';
+import { ZooModule } from './zoo/zoo.module';
+import { ZooClassicModule } from './zooClassic/zooClassic.module';
 
 @Module({
   imports: [
@@ -21,6 +23,8 @@ import { TodoItemModule } from './todo-item/todo-item.module';
       autoSchemaFile: 'src/schema.graphql',
     }),
     TodoItemModule,
+    ZooModule,
+    // ZooClassicModule,
   ],
   controllers: [AppController],
   providers: [AppService],

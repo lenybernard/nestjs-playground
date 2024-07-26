@@ -2,6 +2,14 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+interface AnimalDTO {
+  id: ID!
+  name: String!
+  species: String!
+  living: Boolean!
+  type: Boolean!
+}
+
 type TodoItem {
   id: ID!
   title: String!
@@ -71,6 +79,79 @@ type TodoItemConnection {
   edges: [TodoItemEdge!]!
 }
 
+type Cat implements AnimalDTO {
+  id: ID!
+  name: String!
+  species: String!
+  living: Boolean!
+  type: Boolean!
+  numberOfLifes: Float!
+}
+
+type Dog implements AnimalDTO {
+  id: ID!
+  name: String!
+  species: String!
+  living: Boolean!
+  type: Boolean!
+}
+
+type AnimalDeleteResponse {
+  id: ID
+  name: String
+  species: String
+  living: Boolean
+  type: Boolean
+}
+
+type AnimalEdge {
+  """The node containing the Animal"""
+  node: AnimalDTO!
+
+  """Cursor for this node."""
+  cursor: ConnectionCursor!
+}
+
+type AnimalConnection {
+  """Paging information"""
+  pageInfo: PageInfo!
+
+  """Array of edges."""
+  edges: [AnimalEdge!]!
+}
+
+type CatEdge {
+  """The node containing the Cat"""
+  node: Cat!
+
+  """Cursor for this node."""
+  cursor: ConnectionCursor!
+}
+
+type CatConnection {
+  """Paging information"""
+  pageInfo: PageInfo!
+
+  """Array of edges."""
+  edges: [CatEdge!]!
+}
+
+type DogEdge {
+  """The node containing the Dog"""
+  node: Dog!
+
+  """Cursor for this node."""
+  cursor: ConnectionCursor!
+}
+
+type DogConnection {
+  """Paging information"""
+  pageInfo: PageInfo!
+
+  """Array of edges."""
+  edges: [DogEdge!]!
+}
+
 type Query {
   author(id: Int!): Author!
   todoItem(
@@ -87,6 +168,48 @@ type Query {
     """Specify to sort results."""
     sorting: [TodoItemSort!]! = []
   ): TodoItemConnection!
+  animal(
+    """The id of the record to find."""
+    id: ID!
+  ): AnimalDTO!
+  animals(
+    """Limit or page results."""
+    paging: CursorPaging! = {first: 10}
+
+    """Specify to filter the records returned."""
+    filter: AnimalFilter! = {}
+
+    """Specify to sort results."""
+    sorting: [AnimalSort!]! = []
+  ): AnimalConnection!
+  cat(
+    """The id of the record to find."""
+    id: ID!
+  ): Cat!
+  cats(
+    """Limit or page results."""
+    paging: CursorPaging! = {first: 10}
+
+    """Specify to filter the records returned."""
+    filter: CatFilter! = {}
+
+    """Specify to sort results."""
+    sorting: [CatSort!]! = []
+  ): CatConnection!
+  dog(
+    """The id of the record to find."""
+    id: ID!
+  ): Dog!
+  dogs(
+    """Limit or page results."""
+    paging: CursorPaging! = {first: 10}
+
+    """Specify to filter the records returned."""
+    filter: DogFilter! = {}
+
+    """Specify to sort results."""
+    sorting: [DogSort!]! = []
+  ): DogConnection!
 }
 
 input CursorPaging {
@@ -174,6 +297,100 @@ enum SortNulls {
   NULLS_LAST
 }
 
+input AnimalFilter {
+  and: [AnimalFilter!]
+  or: [AnimalFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  species: StringFieldComparison
+  living: BooleanFieldComparison
+  type: BooleanFieldComparison
+}
+
+input AnimalSort {
+  field: AnimalSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum AnimalSortFields {
+  id
+  name
+  species
+  living
+  type
+}
+
+input CatFilter {
+  and: [CatFilter!]
+  or: [CatFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  species: StringFieldComparison
+  living: BooleanFieldComparison
+  type: BooleanFieldComparison
+  numberOfLifes: NumberFieldComparison
+}
+
+input NumberFieldComparison {
+  is: Boolean
+  isNot: Boolean
+  eq: Float
+  neq: Float
+  gt: Float
+  gte: Float
+  lt: Float
+  lte: Float
+  in: [Float!]
+  notIn: [Float!]
+  between: NumberFieldComparisonBetween
+  notBetween: NumberFieldComparisonBetween
+}
+
+input NumberFieldComparisonBetween {
+  lower: Float!
+  upper: Float!
+}
+
+input CatSort {
+  field: CatSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum CatSortFields {
+  id
+  name
+  species
+  living
+  type
+  numberOfLifes
+}
+
+input DogFilter {
+  and: [DogFilter!]
+  or: [DogFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  species: StringFieldComparison
+  living: BooleanFieldComparison
+  type: BooleanFieldComparison
+}
+
+input DogSort {
+  field: DogSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum DogSortFields {
+  id
+  name
+  species
+  living
+  type
+}
+
 type Mutation {
   createOneTodoItem(input: CreateOneTodoItemInput!): TodoItem!
   createManyTodoItems(input: CreateManyTodoItemsInput!): [TodoItem!]!
@@ -181,6 +398,16 @@ type Mutation {
   updateManyTodoItems(input: UpdateManyTodoItemsInput!): UpdateManyResponse!
   deleteOneTodoItem(input: DeleteOneTodoItemInput!): TodoItemDeleteResponse!
   deleteManyTodoItems(input: DeleteManyTodoItemsInput!): DeleteManyResponse!
+  deleteOneAnimal(input: DeleteOneAnimalInput!): AnimalDeleteResponse!
+  deleteManyAnimals(input: DeleteManyAnimalsInput!): DeleteManyResponse!
+  createOneCat(input: CreateOneCatInput!): Cat!
+  createManyCats(input: CreateManyCatsInput!): [Cat!]!
+  updateOneCat(input: UpdateOneCatInput!): Cat!
+  updateManyCats(input: UpdateManyCatsInput!): UpdateManyResponse!
+  createOneDog(input: CreateOneDogInput!): Dog!
+  createManyDogs(input: CreateManyDogsInput!): [Dog!]!
+  updateOneDog(input: UpdateOneDogInput!): Dog!
+  updateManyDogs(input: UpdateManyDogsInput!): UpdateManyResponse!
 }
 
 input CreateOneTodoItemInput {
@@ -246,4 +473,118 @@ input TodoItemDeleteFilter {
   id: IDFilterComparison
   title: StringFieldComparison
   completed: BooleanFieldComparison
+}
+
+input DeleteOneAnimalInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
+input DeleteManyAnimalsInput {
+  """Filter to find records to delete"""
+  filter: AnimalDeleteFilter!
+}
+
+input AnimalDeleteFilter {
+  and: [AnimalDeleteFilter!]
+  or: [AnimalDeleteFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  species: StringFieldComparison
+  living: BooleanFieldComparison
+  type: BooleanFieldComparison
+}
+
+input CreateOneCatInput {
+  """The record to create"""
+  cat: CreateAnimalInput!
+}
+
+input CreateAnimalInput {
+  name: String!
+}
+
+input CreateManyCatsInput {
+  """Array of records to create"""
+  cats: [CreateAnimalInput!]!
+}
+
+input UpdateOneCatInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateCat!
+}
+
+input UpdateCat {
+  id: ID
+  name: String
+  species: String
+  living: Boolean
+  type: Boolean
+  numberOfLifes: Float
+}
+
+input UpdateManyCatsInput {
+  """Filter used to find fields to update"""
+  filter: CatUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateCat!
+}
+
+input CatUpdateFilter {
+  and: [CatUpdateFilter!]
+  or: [CatUpdateFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  species: StringFieldComparison
+  living: BooleanFieldComparison
+  type: BooleanFieldComparison
+  numberOfLifes: NumberFieldComparison
+}
+
+input CreateOneDogInput {
+  """The record to create"""
+  dog: CreateAnimalInput!
+}
+
+input CreateManyDogsInput {
+  """Array of records to create"""
+  dogs: [CreateAnimalInput!]!
+}
+
+input UpdateOneDogInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateDog!
+}
+
+input UpdateDog {
+  id: ID
+  name: String
+  species: String
+  living: Boolean
+  type: Boolean
+}
+
+input UpdateManyDogsInput {
+  """Filter used to find fields to update"""
+  filter: DogUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateDog!
+}
+
+input DogUpdateFilter {
+  and: [DogUpdateFilter!]
+  or: [DogUpdateFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  species: StringFieldComparison
+  living: BooleanFieldComparison
+  type: BooleanFieldComparison
 }
